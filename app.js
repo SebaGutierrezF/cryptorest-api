@@ -39,11 +39,12 @@ app.get('/api', async (req,res)=> {
     //   los mercados en una sola llamada.
     //
     // http request con axios hacia la api para obtener datos
-    let GetMarkets = await axios.get("https://www.buda.com/api/v2/markets").then((response) => {
-
-          console.log('Everything is awesome.');
-      }).catch((error) => {
-          console.warn('Not good man :('+error.message);
+    let GetMarkets = await axios.get("https://www.buda.com/api/v2/markets", {
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "axios 0.21.1"
+      }}).catch((error) => {
+          console.warn('Not good man :(Get markets)'+error.message);
       });
     //separamos los datos obtenidos en la consulta http, en este caso el indice se llama "markets"
     let {data: { markets },} = GetMarkets;
@@ -52,9 +53,7 @@ app.get('/api', async (req,res)=> {
     //ciclo for para hacer http get por cada dato hacia la segunda url 
     for(index = 0; index < market_id.length; index++){
             // http request con axios hacia la api para obtener datos
-            let GetSpread = await axios.get(`https://www.buda.com/api/v2/markets/${market_id[index]}/ticker`).then((response) => {
-              console.log('Everything is awesome.');
-              }).catch((error) => {
+            let GetSpread = await axios.get(`https://www.buda.com/api/v2/markets/${market_id[index]}/ticker`).catch((error) => {
                   console.warn('Not good man :('+error);
               });
             //separamos los datos obtenidos, en este caso el indice se llama "ticker"
