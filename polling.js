@@ -5,11 +5,7 @@ const axios = require("axios");
 // Set database connection credentials
 
 // Create pool
-const pool = axios.get('https://www.buda.com/api/v2/markets/eth-btc/ticker', {
-    headers: {
-      Accept: "application/json",
-      "User-Agent": "axios 0.21.1"
-    }})
+const pool = axios.get('https://www.buda.com/api/v2/markets/eth-btc/ticker')
 
 //keep alive every 15s
 setInterval(function () {

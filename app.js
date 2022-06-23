@@ -73,16 +73,10 @@ app.get('/api', async (req,res)=> {
         
         //se envia como respuesta un json con todos los valores dentro del arreglo
         res.json(array)
-        
-        
     
   } catch (error) {
     console.warn(error);
-    //setResults([]);
-    
   }
-
-        
 });
 app.get('/',(req, res) =>{   
   const error = req.error;
