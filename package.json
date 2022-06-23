@@ -1,0 +1,24 @@
+{
+  "name": "prueba_buda",
+  "version": "1.0.0",
+  "description": "Rest api para test buda.",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "author": "Sebastian Gutierrez",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "express": "^4.18.1",
+    "node-localstorage": "^2.2.1",
+    "request": "^2.88.2",
+    "requests": "^0.3.0"
+  },
+  "devDependencies": {
+    "jest": "^28.1.1",
+    "supertest": "^6.2.3"
+  }
+}
