@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express()
 const port = process.env.PORT || 3000;
-const axios = require("axios");
+const axios = require('axios').default;
 const pool = require('./polling');
 //const main = require('./index');
 const cors = require('cors');
@@ -27,7 +27,7 @@ app.get('/api', async (req,res)=> {
     //   los mercados en una sola llamada.
     //
     // http request con axios hacia la api para obtener datos
-    let GetMarkets = await axios.get("https://www.buda.com/api/v2/markets");
+    let GetMarkets = await axios.get("https://www.buda.com/api/v2/markets",headers={'X-Custom-Header': 'foobar'});
     //separamos los datos obtenidos en la consulta http, en este caso el indice se llama "markets"
     let {data: {markets},} = GetMarkets;
     //con .map filtramos cada dato en "markets", en este caso la "id" y se le asigna a la variable "market_id"
@@ -35,7 +35,7 @@ app.get('/api', async (req,res)=> {
     //ciclo for para hacer http get por cada dato hacia la segunda url 
     for(index = 0; index < market_id.length; index++){
             // http request con axios hacia la api para obtener datos
-            let GetSpread =  await axios.get(`https://www.buda.com/api/v2/markets/${market_id[index]}/ticker`).catch((error) => {
+            let GetSpread =  await axios.get(`https://www.buda.com/api/v2/markets/${market_id[index]}/ticker`,headers={'X-Custom-Header': 'foobar'}).catch((error) => {
                   console.warn('Not good man :('+error);
               });
             //separamos los datos obtenidos, en este caso el indice se llama "ticker"
