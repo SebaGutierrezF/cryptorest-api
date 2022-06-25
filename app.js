@@ -3,11 +3,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 const axios = require('axios').default;
 const https = require('https');
+const axiosRetry= require('axios-retry');
 
 const pool = require('./polling');
 //const main = require('./index');
 const cors = require('cors');
 app.use(cors());
+axiosRetry(axios, { retries: 3 });
 
 app.get('/api', async (req,res)=> {
   try {
@@ -82,6 +84,34 @@ app.get('/api', async (req,res)=> {
     console.warn(error);
   }
 });
+// Exponential back-off retry delay between requests
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay });
+
+// Custom retry delay
+axiosRetry(axios, { retryDelay: (retryCount) => {
+  return retryCount * 1000;
+}});
+
+// Works with custom axios instances
+const client = axios.create({ baseURL: 'http://example.com' });
+axiosRetry(client, { retries: 3 });
+
+client.get('/test') // The first request fails and the second returns 'ok'
+  .then(result => {
+    result.data; // 'ok'
+  });
+
+// Allows request-specific configuration
+client
+  .get('/test', {
+    'axios-retry': {
+      retries: 0
+    }
+  })
+  .catch(error => { // The first request fails
+    error !== undefined
+  });
+
 app.get('/',(req, res) =>{   
   const error = req.error;
   if (error) throw error;// not connected!
