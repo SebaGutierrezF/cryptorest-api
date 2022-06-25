@@ -4,6 +4,8 @@ const port = process.env.PORT || 3000;
 const axios = require("axios");
 const pool = require('./polling');
 //const main = require('./index');
+const cors = require('cors');
+app.use(cors());
 
 app.get('/api', async (req,res)=> {
   try {
